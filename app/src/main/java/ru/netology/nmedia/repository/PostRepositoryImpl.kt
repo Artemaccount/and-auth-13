@@ -27,13 +27,19 @@ class PostRepositoryImpl(private val dao: PostDao) : PostRepository {
 
 
     override suspend fun signIn(login: String, password: String) {
-        val response = PostsApi.service.auth(login, password)
-        println("RESPONSE!   ${response.body()}")
-        if (!response.isSuccessful) {
-            throw ApiError(response.code(), response.message())
+        try {
+            val response = PostsApi.service.auth(login, password)
+            println("RESPONSE!   ${response.body()}")
+            if (!response.isSuccessful) {
+                throw ApiError(response.code(), response.message())
+            }
+            val body = response.body() ?: throw ApiError(response.code(), response.message())
+            AppAuth.getInstance().setAuth(body.id, body.token)
+        } catch (e: IOException) {
+            throw NetworkError
+        } catch (e: Exception) {
+            throw UnknownError
         }
-        val body = response.body() ?: throw ApiError(response.code(), response.message())
-        AppAuth.getInstance().setAuth(body.id, body.token)
     }
 
 
@@ -43,7 +49,6 @@ class PostRepositoryImpl(private val dao: PostDao) : PostRepository {
             if (!response.isSuccessful) {
                 throw ApiError(response.code(), response.message())
             }
-
             val body = response.body() ?: throw ApiError(response.code(), response.message())
             dao.insert(body.toEntity())
         } catch (e: IOException) {
