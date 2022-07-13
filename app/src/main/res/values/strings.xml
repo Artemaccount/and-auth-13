@@ -32,4 +32,5 @@
     <string name="email">Почта</string>
     <string name="password">Пароль</string>
     <string name="sign_in_action">войти</string>
+    <string name="auth_error">Ошибка авторизации</string>
 </resources>

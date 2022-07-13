@@ -9,6 +9,7 @@
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="8dp"
         android:text="@string/enter"
         android:textColor="@color/black"
         android:textSize="18pt"
@@ -16,34 +17,53 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/signEmail"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/signEmailLayout"
+        app:endIconMode="clear_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:hint="@string/email"
-        android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/title" />
+        app:layout_constraintTop_toBottomOf="@id/title">
 
-    <EditText
-        android:id="@+id/signPassword"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/signEmailText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/signPasswordLayout"
         android:layout_width="match_parent"
+        app:endIconMode="password_toggle"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:hint="@string/password"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/signEmail" />
+        app:layout_constraintTop_toBottomOf="@id/signEmailLayout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/signPasswordText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/signInButton"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
+        android:layout_margin="8dp"
         android:text="@string/sign_in_action"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/signPassword" />
+        app:layout_constraintTop_toBottomOf="@id/signPasswordLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -21,12 +21,12 @@ class SignInFragment : Fragment() {
         val binding = SignDialogBinding.inflate(inflater, container, false)
 
         binding.signInButton.setOnClickListener {
-            val login = binding.signEmail.text.toString()
-            val password = binding.signPassword.text.toString()
+            val login = binding.signEmailText.text.toString()
+            val password = binding.signPasswordText.text.toString()
             viewModel.sign(login, password)
             findNavController().navigateUp()
-        }
 
+        }
         return binding.root
     }
 }

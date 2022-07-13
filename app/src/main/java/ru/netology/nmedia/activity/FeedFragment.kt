@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import ru.netology.nmedia.R
@@ -15,10 +16,13 @@ import ru.netology.nmedia.adapter.OnInteractionListener
 import ru.netology.nmedia.adapter.PostsAdapter
 import ru.netology.nmedia.databinding.FragmentFeedBinding
 import ru.netology.nmedia.dto.Post
+import ru.netology.nmedia.viewmodel.AuthViewModel
 import ru.netology.nmedia.viewmodel.PostViewModel
+import ru.netology.nmedia.viewmodel.SignInViewModel
 
 class FeedFragment : Fragment() {
     private val viewModel: PostViewModel by viewModels(ownerProducer = ::requireParentFragment)
+    private val signInViewModel: SignInViewModel by viewModels(ownerProducer = ::requireParentFragment)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -62,6 +66,18 @@ class FeedFragment : Fragment() {
                     .show()
             }
         }
+
+        signInViewModel.authState.observe(viewLifecycleOwner) { signInState ->
+            if (signInState.error) {
+                Snackbar.make(binding.root, R.string.auth_error, Snackbar.LENGTH_LONG)
+                    .setAction(R.string.retry_loading) {
+                        findNavController()
+                            .navigate(R.id.action_feedFragment_to_signInFragment)
+                    }
+                    .show()
+            }
+        }
+
         viewModel.data.observe(viewLifecycleOwner) { state ->
             adapter.submitList(state.posts)
             binding.emptyText.isVisible = state.empty
